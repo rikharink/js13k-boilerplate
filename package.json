@@ -1,0 +1,28 @@
+{
+  "name": "js13k-boilerplate",
+  "version": "1.0.0",
+  "description": "Boilerplate for js13k entries",
+  "main": "index.js",
+  "repository": "git@github.com:rikharink/js13k-boilerplate.git",
+  "author": "Rik Harink <rik@har.ink>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@rollup/plugin-image": "^2.1.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@rollup/plugin-typescript": "^8.3.2",
+    "chalk": "^5.0.1",
+    "cross-env": "^7.0.3",
+    "filesize": "^8.0.7",
+    "prettier": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "roadroller": "^2.1.0",
+    "rollup": "^2.72.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "terser": "^5.13.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.6.4",
+    "zipstats": "^1.1.0"
+  }
+}
