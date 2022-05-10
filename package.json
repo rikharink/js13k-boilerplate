@@ -7,6 +7,10 @@
   "author": "Rik Harink <rik@har.ink>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "start": "cross-env NODE_ENV=development rollup -c -w",
+    "build": "cross-env NODE_ENV=production rollup -c"
+  },
   "devDependencies": {
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
@@ -19,6 +23,7 @@
     "rimraf": "^3.0.2",
     "roadroller": "^2.1.0",
     "rollup": "^2.72.1",
+    "rollup-plugin-html2": "^3.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "terser": "^5.13.1",
     "tslib": "^2.4.0",
