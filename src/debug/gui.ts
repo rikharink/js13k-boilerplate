@@ -2,9 +2,7 @@ import settings from '../settings';
 
 export async function showDebugGUI() {
   const controls = new window.dat.GUI();
-  let stateControls = controls.addFolder('settings');
-  stateControls.open();
-  for (let key of Object.keys(settings)) {
-    stateControls.add(settings, key);
-  }
+  let settingsControls = controls.addFolder('settings');
+  settingsControls.open();
+  settingsControls.add(settings, 'dt', 10, 100, 1);
 }

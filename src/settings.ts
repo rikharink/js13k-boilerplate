@@ -1,5 +1,5 @@
 let settings = {
-  dt: 0.01,
+  dt: 10,
 };
 
 export default settings;

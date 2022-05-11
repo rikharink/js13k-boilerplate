@@ -8,17 +8,14 @@ export class Game {
   _t: number = 0;
   _accumulator: number = 0;
 
-  constructor(private _canvas: HTMLCanvasElement) {
-    window.addEventListener('focus', this.start.bind(this));
-    window.addEventListener('blur', this.stop.bind(this));
-  }
+  constructor(private _canvas: HTMLCanvasElement) {}
 
   loop(now: Milliseconds) {
     this._handle = requestAnimationFrame(this.loop.bind(this));
     if (this._then) {
       const ft = now - this._then;
-      this._then = now;
       if (ft > 1000) {
+        this._then = now;
         return;
       }
 
@@ -33,6 +30,7 @@ export class Game {
       const alpha = this._accumulator / settings.dt;
       //DO VARIABLE STEP STUFF
     }
+    this._then = now;
   }
 
   public start() {
@@ -42,6 +40,7 @@ export class Game {
 
   public stop() {
     this._running = false;
+    this._then = undefined;
     cancelAnimationFrame(this._handle);
   }
 
