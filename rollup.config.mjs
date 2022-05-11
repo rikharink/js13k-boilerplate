@@ -6,9 +6,34 @@ import json from "@rollup/plugin-json";
 import image from "@rollup/plugin-image";
 import replace from "@rollup/plugin-replace";
 import html2 from "rollup-plugin-html2";
+import { Packer } from "roadroller";
+import livereload from "rollup-plugin-livereload";
+import serve from "rollup-plugin-serve";
 
 const env = process.env.NODE_ENV || "development";
 const isDev = env === "development";
+const isProduction = env === "production";
+
+const roadroller = {
+  renderChunk(data) {
+    const inputs = [
+      {
+        data,
+        type: "js",
+        action: "eval",
+      },
+    ];
+
+    const options = {
+      maxMemoryMB: 150,
+    };
+
+    const packer = new Packer(inputs, options);
+    packer.optimize();
+    const { firstLine, secondLine } = packer.makeDecoder();
+    return firstLine + secondLine;
+  },
+};
 
 const plugins = [
   replace({
@@ -53,7 +78,10 @@ const plugins = [
       module: true,
       toplevel: true,
     },
-  })
+  }),
+  isProduction && roadroller,
+  isDev && livereload({ watch: "dist" }),
+  isDev && serve("dist"),
 ];
 
 export default defineConfig({
