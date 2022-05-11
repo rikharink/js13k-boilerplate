@@ -86,7 +86,6 @@ function archive(html) {
     archive.append(html, { name: "index.html" });
     await archive.finalize();
   })
-  
 }
 
 let result = getHtml();

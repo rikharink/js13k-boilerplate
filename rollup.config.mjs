@@ -29,7 +29,7 @@ const roadroller = {
     };
 
     const packer = new Packer(inputs, options);
-    packer.optimize();
+    packer.optimize(2);
     const { firstLine, secondLine } = packer.makeDecoder();
     return firstLine + secondLine;
   },
