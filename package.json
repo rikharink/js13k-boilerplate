@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist/*",
+    "prestart": "yarn clean",
     "start": "cross-env NODE_ENV=development rollup -c -w",
     "prebuild": "yarn clean",
     "build": "cross-env NODE_ENV=production rollup -c",
