@@ -9,6 +9,7 @@ import html2 from 'rollup-plugin-html2';
 import { Packer } from 'roadroller';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
+import { default as glslOptimize } from 'rollup-plugin-glsl-optimize';
 
 const env = process.env.NODE_ENV || 'development';
 const isDev = env === 'development';
@@ -42,8 +43,17 @@ let externalDependencies = [];
 if (isDev) {
   externalDependencies.push({
     tag: 'script',
-    src: 'https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js',
+    src: 'https://cdn.jsdelivr.net/npm/lil-gui@0.16',
     crossorigin: 'anonymous',
+  });
+  externalDependencies.push({
+    tag: 'script',
+    src: 'https://mrdoob.github.io/stats.js/build/stats.min.js',
+    crossorigin: 'anonymous',
+  });
+  externalDependencies.push({
+    tag: 'script',
+    src: 'https://spectorcdn.babylonjs.com/spector.bundle.js',
   });
 }
 
@@ -55,9 +65,6 @@ export default defineConfig({
     format: 'iife',
     sourcemap: isDev && !shouldRoadroller,
     strict: false,
-    globals: {
-      'dat.gui': 'dat',
-    },
   },
   plugins: [
     html2({
@@ -68,14 +75,12 @@ export default defineConfig({
         before: externalDependencies,
       },
     }),
+    glslOptimize(),
     image(),
     json(),
     replace({
       preventAssignment: true,
-      values: {
-        'process.env.NODE_ENV': JSON.stringify(env),
-        'process.env.DEBUG': JSON.stringify(isDev),
-      },
+      'process.env.NODE_ENV': JSON.stringify(env),
     }),
     typescript(),
     shouldMinify &&

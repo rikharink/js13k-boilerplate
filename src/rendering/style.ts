@@ -20,6 +20,17 @@ export function injectStyle() {
         width: 100%;
         height: 100%;
       }
+      
+      .no-aa {
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-crisp-edges;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+      }
+
+      .aa {
+        image-rendering: auto;
+      }
   `;
   document.head.appendChild(style);
 }

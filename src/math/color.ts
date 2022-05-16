@@ -1,4 +1,4 @@
-import { Percentage, RgbColor, HslColor } from '../types';
+import { Percentage, RgbColor, HslColor, RgbaColor } from '../types';
 
 export function lighten(color: RgbColor, percentage: Percentage): RgbColor {
   let hsl = rgbToHsl(color);
@@ -29,6 +29,10 @@ export function splitRgb(rgb: number): RgbColor {
 
 export function normalizeRgb(rgb: RgbColor): RgbColor {
   return [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255];
+}
+
+export function normalizeRgba(rgba: RgbaColor): RgbaColor {
+  return [rgba[0] / 255, rgba[1] / 255, rgba[2] / 255, rgba[3]/ 255];
 }
 
 //FROM: https://css-tricks.com/converting-color-spaces-in-javascript/
