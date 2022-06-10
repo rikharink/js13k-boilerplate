@@ -2,8 +2,8 @@ import settings from '../settings';
 import state from '../state';
 
 let debugMenus = {
-  showSpector: true,
-  showStats: true,
+  showSpector: false,
+  showStats: false,
 };
 
 async function showDebugGUI() {
@@ -21,35 +21,53 @@ async function showDebugGUI() {
   aac.onChange(function () {
     state.game!.renderer.setupCanvas();
   });
-  renderingControls.add(settings.rendererSettings, 'supportHiDpi', false);
-  renderingControls.add(settings.rendererSettings, 'resizeToScreen', false);
+  renderingControls.add(
+    settings.rendererSettings,
+    'supportHiDpi',
+    settings.rendererSettings.supportHiDpi,
+  );
+
+  renderingControls.add(
+    settings.rendererSettings,
+    'resizeToScreen',
+    settings.rendererSettings.resizeToScreen,
+  );
   renderingControls.addColor(settings.rendererSettings, 'clearColor');
 
   let debugControls = controls.addFolder('debug menus');
-  let spector = debugControls.add(debugMenus, 'showSpector', true);
+
+  //Spector.JS
+  let spector = debugControls.add(
+    debugMenus,
+    'showSpector',
+    debugMenus.showSpector,
+  );
   spector.onChange(function (v: boolean) {
     showSpectorGUI(v);
   });
-  let stats = debugControls.add(debugMenus, 'showStats', true);
+  createSpectorGUI();
+  setTimeout(() => showSpectorGUI(debugMenus.showSpector), 100);
+
+  //Stats.js
+  let stats = debugControls.add(debugMenus, 'showStats', debugMenus.showStats);
   stats.onChange(function (v: boolean) {
     showStatsGUI(v);
   });
-  createSpectorGUI();
   createStatsGUI();
+  showStatsGUI(debugMenus.showStats);
 }
 
 if (process.env.NODE_ENV === 'development') {
   var stats = new Stats();
+  var spector: SPECTOR.Spector;
 }
 
 function showStatsGUI(isVisible: boolean) {
-  let ele = document.querySelector('div canvas')! as HTMLElement;
-  ele.style.display = isVisible ? 'block' : 'none';
+  stats.dom.style.display = isVisible ? 'block' : 'none';
 }
 
 function showSpectorGUI(isVisible: boolean) {
-  let ele = document.getElementsByClassName('captureMenuComponent')[0]
-    .parentElement!;
+  let ele = document.querySelector('.captureMenuComponent')!.parentElement!;
   ele.style.display = isVisible ? 'block' : 'none';
 }
 
@@ -59,9 +77,11 @@ function createStatsGUI() {
 }
 
 function createSpectorGUI() {
-  //@ts-ignore
-  let spector = new SPECTOR.Spector();
+  spector = new SPECTOR.Spector();
+  spector.spyCanvas(state.game!.renderer.canvas);
   spector.displayUI();
+  let w = window as any;
+  w.spector = spector;
 }
 
 export { stats, showDebugGUI };

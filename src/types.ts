@@ -3,6 +3,7 @@ import { Vector3 } from './math/vector3';
 
 export type Milliseconds = number;
 export type Seconds = number;
+export type Bpm = number;
 export type Radian = number;
 export type Degree = number;
 export type RgbaColor = [r: number, g: number, b: number, a: number];
