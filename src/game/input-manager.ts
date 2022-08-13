@@ -54,11 +54,11 @@ export class InputManager {
     return this._previousKeyState.has(key) && !this._currentKeyState.has(key);
   }
 
-  public hasPointerDown(button: number = 0): boolean {
+  public hasPointerDown(button = 0): boolean {
     return this._currentPointerState.has(button);
   }
 
-  public hasPointerUp(button: number = 0): boolean {
+  public hasPointerUp(button = 0): boolean {
     return (
       this._previousPointerState.has(button) &&
       !this._currentPointerState.has(button)

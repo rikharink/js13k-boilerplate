@@ -1,13 +1,16 @@
 import './debug/gui';
 import { showDebugGUI } from './debug/gui';
 import { Game } from './game/game';
-import { WebGL2Renderer } from './rendering/gl-renderer';
-import { injectStyle } from './rendering/style';
+import { Canvas } from './rendering/canvas';
+import { WebGL2Renderer } from './rendering/gl/gl-renderer';
+import settings from './settings';
 import state from './state';
 
-injectStyle();
-const renderer = new WebGL2Renderer({});
-document.body.appendChild(renderer.canvas);
+const canvas = new Canvas({
+  id: 'g',
+  resolution: settings.rendererSettings.resolution,
+});
+const renderer = new WebGL2Renderer(canvas);
 state.game = new Game(renderer);
 state.game.start();
 

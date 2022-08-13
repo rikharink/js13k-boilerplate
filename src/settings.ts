@@ -1,7 +1,8 @@
+import { DebugSettings } from './debug/gui';
 import {
   GL_COLOR_BUFFER_BIT,
   GL_DEPTH_BUFFER_BIT,
-} from './rendering/gl-constants';
+} from './rendering/gl/gl-constants';
 import { RendererSettings } from './rendering/renderer-settings';
 
 export const defaultRendererSettings: RendererSettings = {
@@ -13,9 +14,15 @@ export const defaultRendererSettings: RendererSettings = {
   antialias: true,
 };
 
-let settings = {
+export const defaultDebugSettings: DebugSettings = {
+  showSpector: false,
+  showStats: false,
+};
+
+const settings = {
   dt: 10,
   rendererSettings: defaultRendererSettings,
+  debugSettings: defaultDebugSettings,
 };
 
 export default settings;

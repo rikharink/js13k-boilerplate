@@ -34,7 +34,7 @@ if (isDev) {
 
 const plugins = [
   html2({
-    title: 'TopiConf 2022',
+    title: 'JS13K 2022',
     template: join('src', 'index.html'),
     minify: false,
     externals: {

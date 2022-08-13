@@ -1,3 +1,6 @@
+import { Canvas } from './canvas';
+
 export interface Renderer {
-  canvas: HTMLCanvasElement;
+  canvas: Canvas;
+  render(): void;
 }

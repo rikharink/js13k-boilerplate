@@ -1,5 +1,5 @@
 import { stats } from '../debug/gui';
-import { WebGL2Renderer } from '../rendering/gl-renderer';
+import { Renderer } from '../rendering/renderer';
 import settings from '../settings';
 import { Milliseconds } from '../types';
 import { InputManager } from './input-manager';
@@ -11,8 +11,12 @@ export class Game {
   private _t = 0;
   private _accumulator = 0;
   private _input: InputManager;
+  public renderer: Renderer;
 
-  constructor(public renderer: WebGL2Renderer) {}
+  constructor(renderer: Renderer) {
+    this.renderer = renderer;
+    this._input = new InputManager(renderer.canvas.canvas);
+  }
 
   loop(now: Milliseconds) {
     if (process.env.NODE_ENV === 'development') {
@@ -36,6 +40,7 @@ export class Game {
 
       const alpha = this._accumulator / settings.dt;
       //DO VARIABLE STEP STUFF
+      this._processInput();
       this.renderer.render();
     }
     this._then = now;
@@ -58,5 +63,10 @@ export class Game {
   public toggle() {
     this._running = !this._running;
     this._running ? this.start() : this.stop();
+  }
+
+  private _processInput() {
+    //PROCESS INPUT
+    this._input.tick();
   }
 }
