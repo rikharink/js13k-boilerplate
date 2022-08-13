@@ -15,6 +15,7 @@ export const defaultRendererSettings: RendererSettings = {
 export const defaultDebugSettings: DebugSettings = {
   showSpector: false,
   showStats: false,
+  forceMonetization: false,
 };
 
 const settings = {

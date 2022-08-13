@@ -53,6 +53,7 @@ const plugins = [
   replace({
     preventAssignment: true,
     'process.env.NODE_ENV': JSON.stringify(env),
+    'process.env.PAYMENT_POINTER': '$ilp.uphold.com/g64DLNdpidDy',
   }),
   typescript(),
 ];

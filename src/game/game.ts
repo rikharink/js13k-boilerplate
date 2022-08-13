@@ -1,7 +1,7 @@
 import { stats } from '../debug/gui';
 import { Renderer } from '../rendering/renderer';
 import settings from '../settings';
-import { Milliseconds } from '../types';
+import { Milliseconds, Seconds } from '../types';
 import { InputManager } from './input-manager';
 
 export class Game {
@@ -12,10 +12,36 @@ export class Game {
   private _accumulator = 0;
   private _input: InputManager;
   public renderer: Renderer;
+  public monetized = false;
 
   constructor(renderer: Renderer) {
     this.renderer = renderer;
     this._input = new InputManager(renderer.canvas.canvas);
+    this.monetized = document.monetization?.state === 'started';
+    if (this.monetized) {
+      console.log('Monetization immediatly started');
+    } else {
+      console.log('Monetization immediatly stopped');
+    }
+    if (document.monetization) {
+      document.monetization.addEventListener(
+        'monetizationstart',
+        (() => {
+          this.monetized = true;
+          console.log('Monetization enabled!');
+        }).bind(this),
+      );
+
+      document.monetization.addEventListener(
+        'monetizationstop',
+        (() => {
+          this.monetized = false;
+          console.log('Monetization stopped!');
+        }).bind(this),
+      );
+    } else {
+      console.log('No webmonetization API found');
+    }
   }
 
   loop(now: Milliseconds) {

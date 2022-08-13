@@ -28,6 +28,7 @@
     "@types/stats.js": "^0.17.0",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
+    "@webmonetization/types": "^0.0.0",
     "archiver": "^5.3.1",
     "chalk": "^5.0.1",
     "cross-env": "^7.0.3",
