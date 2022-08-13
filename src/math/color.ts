@@ -1,19 +1,25 @@
-import { Percentage, RgbColor, HslColor, RgbaColor } from '../types';
+import {
+  Percentage,
+  RgbColor,
+  HslColor,
+  RgbaColor,
+  NormalizedRgbColor,
+} from '../types';
 
 export function lighten(color: RgbColor, percentage: Percentage): RgbColor {
-  let hsl = rgbToHsl(color);
+  const hsl = rgbToHsl(color);
   hsl[2] += (percentage / 100) * 50;
   return hslToRgb(hsl);
 }
 
 export function darken(color: RgbColor, percentage: Percentage) {
-  let hsl = rgbToHsl(color);
+  const hsl = rgbToHsl(color);
   hsl[2] -= (percentage / 100) * 50;
   return hslToRgb(hsl);
 }
 
 export function mergeRgb(rgb: RgbColor): number {
-  let [r, g, b] = rgb;
+  const [r, g, b] = rgb;
   let res = r;
   res = (res << 8) + g;
   res = (res << 8) + b;
@@ -21,9 +27,9 @@ export function mergeRgb(rgb: RgbColor): number {
 }
 
 export function splitRgb(rgb: number): RgbColor {
-  let r = (rgb & 0x00ff0000) >> 16;
-  let g = (rgb & 0x0000ff00) >> 8;
-  let b = rgb & 0x000000ff;
+  const r = (rgb & 0x00ff0000) >> 16;
+  const g = (rgb & 0x0000ff00) >> 8;
+  const b = rgb & 0x000000ff;
   return [r, g, b];
 }
 
@@ -32,19 +38,21 @@ export function normalizeRgb(rgb: RgbColor): RgbColor {
 }
 
 export function normalizeRgba(rgba: RgbaColor): RgbaColor {
-  return [rgba[0] / 255, rgba[1] / 255, rgba[2] / 255, rgba[3]/ 255];
+  return [rgba[0] / 255, rgba[1] / 255, rgba[2] / 255, rgba[3] / 255];
 }
 
 //FROM: https://css-tricks.com/converting-color-spaces-in-javascript/
 export function hslToRgb(hsl: HslColor): RgbColor {
-  let [h, s, l] = hsl;
+  const h = hsl[0];
+  let s = hsl[1];
+  let l = hsl[2];
   s /= 100;
   l /= 100;
 
-  let c = (1 - Math.abs(2 * l - 1)) * s,
+  const c = (1 - Math.abs(2 * l - 1)) * s,
     x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
-    m = l - c / 2,
-    r = 0,
+    m = l - c / 2;
+  let r = 0,
     g = 0,
     b = 0;
 
@@ -89,10 +97,10 @@ export function rgbToHsl(rgb: RgbColor): HslColor {
   b /= 255;
 
   // Find greatest and smallest channel values
-  let cmin = Math.min(r, g, b),
+  const cmin = Math.min(r, g, b),
     cmax = Math.max(r, g, b),
-    delta = cmax - cmin,
-    h = 0,
+    delta = cmax - cmin;
+  let h = 0,
     s = 0,
     l = 0;
 
@@ -126,4 +134,21 @@ export function rgbToHsl(rgb: RgbColor): HslColor {
 
 export function rgbaString(color: RgbColor, alpha: number): string {
   return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${alpha})`;
+}
+
+export function hexToRgb(hex: string): RgbColor {
+  let c: string[];
+  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+    c = hex.substring(1).split('');
+    if (c.length == 3) {
+      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+    const c2 = Number('0x' + c.join(''));
+    return [(c2 >> 16) & 255, (c2 >> 8) & 255, c2 & 255];
+  }
+  throw new Error('Bad Hex');
+}
+
+export function hexToNormalizedRgb(hex: string): NormalizedRgbColor {
+  return normalizeRgb(hexToRgb(hex));
 }

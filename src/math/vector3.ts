@@ -16,8 +16,6 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-import { get_translation, Matrix4x4 } from './matrix4x4';
-
 export type Vector3 = [x: number, y: number, z: number];
 
 export function set(out: Vector3, x: number, y: number, z: number) {
@@ -53,6 +51,12 @@ export function scale(out: Vector3, a: Vector3, b: number) {
   out[1] = a[1] * b;
   out[2] = a[2] * b;
   return out;
+}
+
+export function mul(out: Vector3, a: Vector3, b: Vector3) {
+  out[0] = a[0] * b[0];
+  out[1] = a[1] * b[1];
+  out[2] = a[2] * b[2];
 }
 
 export function negate(out: Vector3, a: Vector3) {
@@ -94,24 +98,6 @@ export function cross(out: Vector3, a: Vector3, b: Vector3) {
   out[1] = az * bx - ax * bz;
   out[2] = ax * by - ay * bx;
   return out;
-}
-
-export function transform_point(out: Vector3, a: Vector3, m: Matrix4x4) {
-  const x = a[0],
-    y = a[1],
-    z = a[2];
-  let w = m[3] * x + m[7] * y + m[11] * z + m[15];
-  w = w || 1.0;
-  out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w;
-  out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w;
-  out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w;
-  return out;
-}
-
-export function transform_direction(out: Vector3, a: Vector3, m: Matrix4x4) {
-  const tip = transform_point([0, 0, 0], a, m);
-  const base = get_translation([0, 0, 0], m);
-  return subtract(out, tip, base);
 }
 
 export function length(a: Vector3) {

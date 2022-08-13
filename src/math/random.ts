@@ -1,6 +1,7 @@
 import { Random } from '../types';
 
 export function xmur3(seed: string): () => number {
+  // eslint-disable-next-line no-var
   for (var i = 0, h = 1779033703 ^ seed.length; i < seed.length; i++) {
     h = Math.imul(h ^ seed.charCodeAt(i), 3432918353);
     h = (h << 13) | (h >>> 19);
@@ -14,6 +15,7 @@ export function xmur3(seed: string): () => number {
 
 export function mulberry32(a: number): Random {
   return function () {
+    // eslint-disable-next-line no-var
     var t = (a += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);

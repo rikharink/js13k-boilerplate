@@ -49,10 +49,10 @@ export function copy(out: Quaternion, a: Quaternion) {
 }
 
 export function normalize(out: Quaternion, a: Quaternion) {
-  let x = a[0];
-  let y = a[1];
-  let z = a[2];
-  let w = a[3];
+  const x = a[0];
+  const y = a[1];
+  const z = a[2];
+  const w = a[3];
   let len = x * x + y * y + z * z + w * w;
   if (len > 0) {
     len = 1 / Math.sqrt(len);
@@ -65,11 +65,11 @@ export function normalize(out: Quaternion, a: Quaternion) {
 }
 
 export function multiply(out: Quaternion, a: Quaternion, b: Quaternion) {
-  let ax = a[0],
+  const ax = a[0],
     ay = a[1],
     az = a[2],
     aw = a[3];
-  let bx = b[0],
+  const bx = b[0],
     by = b[1],
     bz = b[2],
     bw = b[3];
@@ -97,12 +97,12 @@ export function conjugate(out: Quaternion, a: Quaternion) {
  * @param z Rotation around the Z axis, in degress.
  */
 export function from_euler(out: Quaternion, x: number, y: number, z: number) {
-  let sx = Math.sin((x / 2) * DEGREE_TO_RADIAN);
-  let cx = Math.cos((x / 2) * DEGREE_TO_RADIAN);
-  let sy = Math.sin((y / 2) * DEGREE_TO_RADIAN);
-  let cy = Math.cos((y / 2) * DEGREE_TO_RADIAN);
-  let sz = Math.sin((z / 2) * DEGREE_TO_RADIAN);
-  let cz = Math.cos((z / 2) * DEGREE_TO_RADIAN);
+  const sx = Math.sin((x / 2) * DEGREE_TO_RADIAN);
+  const cx = Math.cos((x / 2) * DEGREE_TO_RADIAN);
+  const sy = Math.sin((y / 2) * DEGREE_TO_RADIAN);
+  const cy = Math.cos((y / 2) * DEGREE_TO_RADIAN);
+  const sz = Math.sin((z / 2) * DEGREE_TO_RADIAN);
+  const cz = Math.cos((z / 2) * DEGREE_TO_RADIAN);
 
   out[0] = sx * cy * cz + cx * sy * sz;
   out[1] = cx * sy * cz - sx * cy * sz;
@@ -118,7 +118,7 @@ export function from_euler(out: Quaternion, x: number, y: number, z: number) {
  * @param angle Rotation in radians.
  */
 export function from_axis(out: Quaternion, axis: Vector3, angle: number) {
-  let half = angle / 2;
+  const half = angle / 2;
   out[0] = Math.sin(half) * axis[0];
   out[1] = Math.sin(half) * axis[1];
   out[2] = Math.sin(half) * axis[2];
@@ -127,12 +127,12 @@ export function from_axis(out: Quaternion, axis: Vector3, angle: number) {
 }
 
 export const rotation_to = (function () {
-  let tmpvec3: Vector3 = [0, 0, 0];
-  let xUnitVec3: Vector3 = [1, 0, 0];
-  let yUnitVec3: Vector3 = [0, 1, 0];
+  const tmpvec3: Vector3 = [0, 0, 0];
+  const xUnitVec3: Vector3 = [1, 0, 0];
+  const yUnitVec3: Vector3 = [0, 1, 0];
 
   return function (out: Quaternion, a: Vector3, b: Vector3) {
-    let d = dot(a, b);
+    const d = dot(a, b);
     if (d < -0.999999) {
       cross(tmpvec3, xUnitVec3, a);
       if (length(tmpvec3) < 0.000001) cross(tmpvec3, yUnitVec3, a);
@@ -157,10 +157,10 @@ export const rotation_to = (function () {
 })();
 
 export function lerp(out: Quaternion, a: Quaternion, b: Quaternion, t: number) {
-  let ax = a[0];
-  let ay = a[1];
-  let az = a[2];
-  let aw = a[3];
+  const ax = a[0];
+  const ay = a[1];
+  const az = a[2];
+  const aw = a[3];
   out[0] = ax + t * (b[0] - ax);
   out[1] = ay + t * (b[1] - ay);
   out[2] = az + t * (b[2] - az);
@@ -184,7 +184,7 @@ export function slerp(
 ) {
   // benchmarks:
   //    http://jsperf.com/quaternion-slerp-implementations
-  let ax = a[0],
+  const ax = a[0],
     ay = a[1],
     az = a[2],
     aw = a[3];
@@ -228,8 +228,8 @@ export function slerp(
 }
 
 export function get_axis(out_axis: Vector3, q: Quaternion) {
-  let rad = Math.acos(q[3]) * 2.0;
-  let s = Math.sin(rad / 2.0);
+  const rad = Math.acos(q[3]) * 2.0;
+  const s = Math.sin(rad / 2.0);
   if (s > EPSILON) {
     out_axis[0] = q[0] / s;
     out_axis[1] = q[1] / s;
