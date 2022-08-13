@@ -31,7 +31,7 @@ export class WebGL2Renderer implements Renderer {
     this.setAntialias();
     this.setResolution(width, height);
     const program = initShaderProgram(this._ctx, vert, frag)!;
-    this._ctx.useProgram(program);
+    this._ctx.useProgram(program.program);
   }
 
   public setResolution(width: number, height: number): void {
