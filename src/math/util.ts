@@ -22,11 +22,10 @@ export function normalize(value: number, min: number, max: number): number {
 export function nearlyEqual(a: number, b: number, epsilon?: number) {
   const minNormal = Math.pow(2, -1022);
   epsilon = epsilon ?? EPSILON;
-  let diff;
   if (a === b) {
     return true;
   }
-  diff = Math.abs(a - b);
+  const diff = Math.abs(a - b);
   if (a === 0 || b === 0 || diff < minNormal) {
     return diff < epsilon * minNormal;
   } else {

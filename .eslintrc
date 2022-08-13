@@ -1,4 +1,8 @@
 {
+  "globals": {
+    "process": true,
+    "console": true
+  },
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
@@ -9,6 +13,7 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": 2 // Means error
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }

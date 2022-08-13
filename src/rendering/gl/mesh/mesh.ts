@@ -1,5 +1,5 @@
-import { Vector2 } from '../../math/vector2';
-import { add, cross, normalize, subtract, Vector3 } from '../../math/vector3';
+import { Vector2 } from '../../../math/vector2';
+import { add, cross, normalize, subtract, Vector3 } from '../../../math/vector3';
 
 export class Mesh {
   public vertices: Vector3[] = [];

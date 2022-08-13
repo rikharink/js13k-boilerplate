@@ -2,13 +2,15 @@ import { stats } from '../debug/gui';
 import { WebGL2Renderer } from '../rendering/gl-renderer';
 import settings from '../settings';
 import { Milliseconds } from '../types';
+import { InputManager } from './input-manager';
 
 export class Game {
-  _running: boolean = true;
-  _handle: number = 0;
-  _then?: number;
-  _t: number = 0;
-  _accumulator: number = 0;
+  private _running = true;
+  private _handle = 0;
+  private _then?: number;
+  private _t = 0;
+  private _accumulator = 0;
+  private _input: InputManager;
 
   constructor(public renderer: WebGL2Renderer) {}
 

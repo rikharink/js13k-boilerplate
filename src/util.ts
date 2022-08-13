@@ -18,3 +18,7 @@ export function hasOwnKey<O>(
 ): key is keyof O {
   return Object.prototype.hasOwnProperty.call(obj, key);
 }
+
+export function arrayEquals<T>(a: T[], b: T[]): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
+}

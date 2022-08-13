@@ -1,0 +1,33 @@
+body,
+html,
+body {
+  margin: 0;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+canvas {
+  width: 100vw;
+  outline: 0;
+}
+
+.no-aa {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.aa {
+  image-rendering: auto;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  canvas {
+    height: 100vh;
+    width: auto;
+  }
+}

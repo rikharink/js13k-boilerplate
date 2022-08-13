@@ -8,8 +8,11 @@ import util from 'util';
 import { minify as htmlMinify } from 'html-minifier';
 import ect from 'ect-bin';
 import { execFileSync } from 'child_process';
+import { Packer } from 'roadroller';
 
 const inlineHtml = util.promisify(html);
+
+const SHOULD_ROADROLLER = process.env.ROADROLLER === 'true';
 
 function getHtml() {
   return fs.readFileSync(join('dist', 'index.html'), 'utf8');
@@ -45,8 +48,24 @@ function minify(html) {
   });
 }
 
+async function roadroller(html) {
+  console.log(chalk.blue('Rolling the road...'));
+  const inputs = [
+    {
+      data: html,
+      type: 'text',
+      action: 'write',
+    },
+  ];
+  const options = {};
+  const packer = new Packer(inputs, options);
+  await packer.optimize(2);
+  const { firstLine, secondLine } = packer.makeDecoder();
+  return `<script>${firstLine}${secondLine}</script>`;
+}
+
 function archive(html) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     console.log(chalk.blue('Zipping...'));
     const outputPath = join('dist', 'game.zip');
     let output = fs.createWriteStream(outputPath);
@@ -89,12 +108,18 @@ function archive(html) {
 
     archive.pipe(output);
     archive.append(html, { name: 'index.html' });
-    await archive.finalize();
+    archive.finalize().then(() => resolve());
   });
 }
 
 let result = getHtml();
 result = await inline(result);
 result = minify(result);
+if (SHOULD_ROADROLLER) {
+  result = await roadroller(result);
+}
 fs.writeFileSync(join('dist', 'index.min.html'), result);
 await archive(result);
+
+fs.mkdirSync('public', { recursive: true });
+fs.copyFileSync(join('dist', 'index.min.html'), join('public', 'index.html'));
